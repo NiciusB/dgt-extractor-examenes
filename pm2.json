@@ -4,6 +4,7 @@
             "name": "dgt-extractor-examenes",
             "script": "src/index.ts",
             "watch": true,
+            "interpreter": "node_modules/.bin/ts-node",
             "ignore_watch":["store.json"],
             "env": {
                 "production": true
