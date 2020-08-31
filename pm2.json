@@ -7,7 +7,7 @@
             "interpreter": "node_modules/.bin/ts-node",
             "ignore_watch":["store"],
             "env": {
-                "production": true
+                "NODE_ENV": "prod"
             }
         },
         {
@@ -17,7 +17,7 @@
             "interpreter": "node_modules/.bin/ts-node",
             "ignore_watch":["store"],
             "env": {
-                "production": true
+                "NODE_ENV": "prod"
             }
         }
     ]

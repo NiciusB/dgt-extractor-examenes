@@ -11,6 +11,7 @@ export type PracticaTestPregunta = {
 	urlImagen: string
 	enunciado: string
 	respuestas: PracticaTestRespuesta[]
+	explicacion: string
 }
 export type PracticaTestLink = {
 	id: string
@@ -47,12 +48,26 @@ export default async function getQuestion(
 		}
 	)
 
+	const preguntaID = link.split('/').pop()
+
+	const explicacion = await practicaTestApi
+		.post(`/ajax/dudas-permiso`, {
+			permiso_c: 'B',
+			codigo: preguntaID,
+			numero: '1',
+			tipo: 'P.Shared',
+		})
+		.then((res) => res.text())
+		.then((str) => cheerio.load(str).root().text()) // Strip HTML
+
 	const pregunta = {
-		id: link.split('/').pop(),
+		id: preguntaID,
 		urlImagen: $('#content-test img.img-responsive').attr().src,
 		enunciado: $('.container .row h1.fs-25').text(),
 		respuestas,
+		explicacion,
 	}
+
 	const links = Array.from($('.card-block .fs-14 a')).map((otherLink) => {
 		const url = otherLink.attribs.href
 			.replace('https://practicatest.com/preguntas/qB/', '')

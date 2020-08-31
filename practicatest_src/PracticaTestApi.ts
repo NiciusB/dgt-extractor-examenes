@@ -38,6 +38,7 @@ export class PracticaTestApi {
 
 		if (body) {
 			// For POST requests
+			headers['x-requested-with'] = 'XMLHttpRequest'
 			headers['Content-Type'] =
 				'application/x-www-form-urlencoded; charset=UTF-8'
 			parsedBody = Object.entries(body)

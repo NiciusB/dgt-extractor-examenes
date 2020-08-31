@@ -18,7 +18,10 @@ pendingLinks.push(
 	'si-estaciona-un-turismo-con-un-remolque-ligero-en-una-pendiente-sensible-debe/ZJyYng=='
 ) // Initialize it to something known to work
 
-setInterval(retrieveNextQuestion, 1000 * 30)
+setInterval(
+	retrieveNextQuestion,
+	1000 * (process.env.NODE_ENV === 'dev' ? 1 : 20)
+)
 
 function parseNextLinks(links: PracticaTestLink[]) {
 	// try to find a new question
