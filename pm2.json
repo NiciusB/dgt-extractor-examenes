@@ -5,7 +5,7 @@
             "script": "src/index.ts",
             "watch": true,
             "interpreter": "node_modules/.bin/ts-node",
-            "ignore_watch":["store/"],
+            "ignore_watch":["store"],
             "env": {
                 "production": true
             }
@@ -15,7 +15,7 @@
             "script": "practicatest_src/index.ts",
             "watch": true,
             "interpreter": "node_modules/.bin/ts-node",
-            "ignore_watch":["store/"],
+            "ignore_watch":["store"],
             "env": {
                 "production": true
             }
