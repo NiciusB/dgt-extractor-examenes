@@ -1,35 +1,31 @@
-import getDgtCuestionario, { DgtPregunta } from './getDgtCuestionario'
+import getQuestion, { PracticaTestPregunta } from './getQuestion'
 import * as fs from 'fs'
 import * as path from 'path'
 import * as util from 'util'
 
 const writeFile = util.promisify(fs.writeFile)
 
-const storePath = path.join(__dirname, '..', 'store', 'dgt.json')
+const storePath = path.join(__dirname, '..', 'store', 'practicatest.json')
 
-let store: DgtPregunta[] = []
+let store: PracticaTestPregunta[] = []
 loadStore()
 
-setInterval(addRandomQuestionarieToStore, 1000 * 60)
+setInterval(addRandomQuestionarieToStore, 1000 * 15)
 
+let nextQuestionLink =
+	'si-estaciona-un-turismo-con-un-remolque-ligero-en-una-pendiente-sensible-debe/ZJyYng==' // Initialize it to something known to work
 async function addRandomQuestionarieToStore() {
-	const cuestionario = await getDgtCuestionario()
-	let foundNewQuestions = false
+	const cuestionario = await getQuestion(nextQuestionLink)
+	nextQuestionLink = cuestionario.links[0].url
 
-	cuestionario.preguntas.forEach((pregunta) => {
-		const alreadyInStore = store.some(
-			(_pregunta) => _pregunta.id === pregunta.id
-		)
-		if (alreadyInStore) return
+	const alreadyInStore = store.some(
+		(_pregunta) => _pregunta.id === cuestionario.pregunta.id
+	)
+	if (alreadyInStore) return
 
-		foundNewQuestions = true
-		store.push(pregunta)
-	})
+	store.push(cuestionario.pregunta)
 
-	if (foundNewQuestions) {
-		log(`Found new questions on questionnaire ${cuestionario.id}`)
-		await saveStore()
-	}
+	await saveStore()
 }
 
 function log(...stuff: unknown[]) {

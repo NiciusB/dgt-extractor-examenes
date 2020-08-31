@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
+    "start_pt": "ts-node practicatest_src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -29,6 +30,8 @@
     "typescript": "^4.0.2"
   },
   "dependencies": {
+    "@types/cheerio": "^0.22.21",
+    "cheerio": "^1.0.0-rc.3",
     "form-data": "^3.0.0",
     "node-fetch": "^2.6.0",
     "tough-cookie": "^4.0.0"

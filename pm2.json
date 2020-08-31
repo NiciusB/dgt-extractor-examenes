@@ -5,7 +5,17 @@
             "script": "src/index.ts",
             "watch": true,
             "interpreter": "node_modules/.bin/ts-node",
-            "ignore_watch":["store.json"],
+            "ignore_watch":["store/"],
+            "env": {
+                "production": true
+            }
+        },
+        {
+            "name": "practicatest-extractor-examenes",
+            "script": "practicatest_src/index.ts",
+            "watch": true,
+            "interpreter": "node_modules/.bin/ts-node",
+            "ignore_watch":["store/"],
             "env": {
                 "production": true
             }
