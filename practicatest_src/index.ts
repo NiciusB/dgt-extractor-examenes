@@ -1,4 +1,7 @@
-import getQuestion, { PracticaTestPregunta } from './getQuestion'
+import getQuestion, {
+	PracticaTestPregunta,
+	PracticaTestLink,
+} from './getQuestion'
 import * as fs from 'fs'
 import * as path from 'path'
 import * as util from 'util'
@@ -10,17 +13,27 @@ const storePath = path.join(__dirname, '..', 'store', 'practicatest.json')
 let store: PracticaTestPregunta[] = []
 loadStore()
 
-setInterval(addRandomQuestionarieToStore, 1000 * 15)
-
 let nextQuestionLink =
 	'si-estaciona-un-turismo-con-un-remolque-ligero-en-una-pendiente-sensible-debe/ZJyYng==' // Initialize it to something known to work
-async function addRandomQuestionarieToStore() {
-	const cuestionario = await getQuestion(nextQuestionLink)
-	nextQuestionLink = cuestionario.links[0].url
 
-	const alreadyInStore = store.some(
-		(_pregunta) => _pregunta.id === cuestionario.pregunta.id
-	)
+setInterval(retrieveNextQuestion, 1000 * 30)
+
+function findNextLink(links: PracticaTestLink[]): string {
+	// try to find a new question
+	for (const link of links) {
+		const alreadyInStore = store.some((_q) => _q.id === link.id)
+		if (alreadyInStore) continue
+		return link.url
+	}
+	// nothing found, return random question
+	return links[Math.floor(Math.random() * links.length)].url
+}
+
+async function retrieveNextQuestion() {
+	const cuestionario = await getQuestion(nextQuestionLink)
+	nextQuestionLink = findNextLink(cuestionario.links)
+
+	const alreadyInStore = store.some((_q) => _q.id === cuestionario.pregunta.id)
 	if (alreadyInStore) return
 
 	store.push(cuestionario.pregunta)
