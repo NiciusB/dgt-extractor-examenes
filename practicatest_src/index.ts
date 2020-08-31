@@ -13,25 +13,28 @@ const storePath = path.join(__dirname, '..', 'store', 'practicatest.json')
 let store: PracticaTestPregunta[] = []
 loadStore()
 
-let nextQuestionLink =
-	'si-estaciona-un-turismo-con-un-remolque-ligero-en-una-pendiente-sensible-debe/ZJyYng==' // Initialize it to something known to work
+const pendingLinks = []
+pendingLinks.push(
+	'si-estaciona-un-turismo-con-un-remolque-ligero-en-una-pendiente-sensible-debe/ZJyYng=='
+) // Initialize it to something known to work
 
 setInterval(retrieveNextQuestion, 1000 * 30)
 
-function findNextLink(links: PracticaTestLink[]): string {
+function parseNextLinks(links: PracticaTestLink[]) {
 	// try to find a new question
 	for (const link of links) {
 		const alreadyInStore = store.some((_q) => _q.id === link.id)
-		if (alreadyInStore) continue
-		return link.url
+		if (!alreadyInStore) pendingLinks.push(link.url)
 	}
-	// nothing found, return random question
-	return links[Math.floor(Math.random() * links.length)].url
+	if (pendingLinks.length === 0) {
+		// nothing found, add random question
+		pendingLinks.push(links[Math.floor(Math.random() * links.length)].url)
+	}
 }
 
 async function retrieveNextQuestion() {
-	const cuestionario = await getQuestion(nextQuestionLink)
-	nextQuestionLink = findNextLink(cuestionario.links)
+	const cuestionario = await getQuestion(pendingLinks.pop())
+	parseNextLinks(cuestionario.links)
 
 	const alreadyInStore = store.some((_q) => _q.id === cuestionario.pregunta.id)
 	if (alreadyInStore) return
