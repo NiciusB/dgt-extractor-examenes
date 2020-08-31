@@ -27,7 +27,7 @@ async function addRandomQuestionarieToStore() {
 	})
 
 	if (foundNewQuestions) {
-		log(`Found new questions on questionaire ${cuestionario.id}`)
+		log(`Found new questions on questionnaire ${cuestionario.id}`)
 		await saveStore()
 	}
 }
@@ -45,6 +45,8 @@ function loadStore() {
 		} catch (err) {
 			throw new Error('Corrupted store.json')
 		}
+	} else {
+		log('store.json no encontrado! Empezando desde 0')
 	}
 }
 
