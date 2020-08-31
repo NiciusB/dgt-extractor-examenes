@@ -1,0 +1,13 @@
+{
+    "apps": [
+        {
+            "name": "dgt-extractor-examenes",
+            "script": "src/index.ts",
+            "watch": true,
+            "ignore_watch":["store.json"],
+            "env": {
+                "production": true
+            }
+        }
+    ]
+}
