@@ -63,8 +63,11 @@ export default async function getQuestion(): Promise<PracticaTestPregunta[]> {
 
 			return {
 				id: preguntaID,
-				urlImagen: $('#content-test img.img-responsive').attr().src,
-				enunciado: $('.container .row h1.fs-25').text(),
+				urlImagen: $('img.img-responsive', preguntaElm).attr().src,
+				enunciado: $('h4.color-primary', preguntaElm)
+					.text()
+					.trim()
+					.replace(/^\d\. /, ''), // Remove initial 2)
 				respuestas,
 				explicacion,
 			}

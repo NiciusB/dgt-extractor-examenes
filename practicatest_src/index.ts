@@ -16,7 +16,7 @@ async function main() {
 
 	const infiniteLoop = () =>
 		retrieveNextQuestion().then(() => {
-			const timeoutMs = process.env.NODE_ENV === 'dev' ? 500 : 1000 * 20
+			const timeoutMs = process.env.NODE_ENV === 'dev' ? 500 : 1000 * 30
 			setTimeout(infiniteLoop, timeoutMs)
 		})
 	infiniteLoop()
