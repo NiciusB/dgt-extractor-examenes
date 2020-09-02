@@ -2,7 +2,7 @@
     "apps": [
         {
             "name": "dgt-extractor-examenes",
-            "script": "src/index.ts",
+            "script": "src/dgt/index.ts",
             "watch": true,
             "interpreter": "node_modules/.bin/ts-node",
             "ignore_watch":["store"],
@@ -12,7 +12,7 @@
         },
         {
             "name": "practicatest-extractor-examenes",
-            "script": "practicatest_src/index.ts",
+            "script": "src/pt/index.ts",
             "watch": true,
             "interpreter": "node_modules/.bin/ts-node",
             "ignore_watch":["store"],
