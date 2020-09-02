@@ -24,10 +24,10 @@ export default async function getQuestion(): Promise<PracticaTestPregunta[]> {
 
 	const preguntasPromises = Array.from($('#content-test .well.well-sm')).map(
 		async (preguntaElm): Promise<PracticaTestPregunta> => {
-			const correct_answser_index = $(
-				'.hide.option_correct',
-				preguntaElm
-			).text()
+			const option_correct = $('.hide.option_correct', preguntaElm).text() // always 1 afaik, but use this just in case
+			const order_answer = $('.hide.order_answer', preguntaElm).text()
+			const correct_answser_index = order_answer.indexOf(option_correct)
+
 			const respuestas: PracticaTestRespuesta[] = Array.from(
 				$('.test_simple li', preguntaElm)
 			).map((respuestaDom, index) => {
@@ -41,7 +41,7 @@ export default async function getQuestion(): Promise<PracticaTestPregunta[]> {
 				return {
 					id: respuestaDom.attribs.id,
 					contenido,
-					correcta: (index + 1).toString() === correct_answser_index,
+					correcta: index === correct_answser_index,
 				}
 			})
 
